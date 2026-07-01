@@ -73,7 +73,9 @@ html[data-lang="en"] .lang.inline[data-lang="en"]{display:inline}
   position:fixed;top:0;right:0;z-index:60;
   display:flex;gap:2px;padding:18px 22px;
   font-family:var(--sans);font-size:1.5rem;letter-spacing:0.06em;
+  transition:opacity .35s ease, transform .35s ease;
 }
+.langbar.langbar-hidden{opacity:0;pointer-events:none;transform:translateY(-110%)}
 .langbar button{
   background:none;border:none;color:var(--cream);opacity:0.55;cursor:pointer;
   padding:10px 16px;font-family:var(--sans);font-size:1.5rem;font-weight:700;letter-spacing:0.06em;
@@ -306,10 +308,10 @@ html[data-lang="en"] .photo-caption[data-lang="en"]{display:flex}
   position:absolute;bottom:10px;right:18px;z-index:1;color:#fff;opacity:0.55;
   font-family:var(--sans);font-size:0.68rem;letter-spacing:0.04em;text-shadow:0 1px 6px rgba(0,0,0,.5);
 }
-/* nom de la propietat sobre la foto del racó — ha de destacar, no és un simple crèdit */
+/* crèdit foto terrassa: format normal de peu de foto, no de títol */
 #ubicacio .photo-break .credit{
-  bottom:26px;right:34px;opacity:0.95;color:var(--cream);font-size:0.8rem;font-weight:700;
-  letter-spacing:0.1em;text-transform:uppercase;text-shadow:0 2px 10px rgba(0,0,0,.6);
+  bottom:10px;right:18px;opacity:0.55;color:#fff;font-size:0.68rem;font-weight:400;
+  letter-spacing:0.04em;text-transform:none;text-shadow:0 1px 6px rgba(0,0,0,.5);
 }
 .photo-break .caption.caption-lg{
   top:48px;bottom:auto;left:0;right:auto;
@@ -422,10 +424,10 @@ footer small{color:var(--cream);opacity:0.5;display:block;margin-top:40px;font-s
   .itin-grid{grid-template-columns:1fr}
   .itin-card{padding:28px 24px}
   .rutes-grid{grid-template-columns:1fr;gap:32px}
-  .rutes-photo-wrap{position:static;order:-1}
+  .rutes-photo-wrap{position:static;order:1}
   .rutes-photo-wrap img{flex:none;height:320px;min-height:0;max-height:none}
   .roses-grid{grid-template-columns:1fr;gap:32px}
-  .roses-photo-wrap{flex-direction:row;order:-1}
+  .roses-photo-wrap{flex-direction:row;order:1}
   .roses-photo-wrap>div{min-height:0}
   .roses-photo-wrap img{flex:none;height:220px;min-height:0}
   .beach-table{grid-template-columns:1fr}
@@ -445,17 +447,32 @@ footer small{color:var(--cream);opacity:0.5;display:block;margin-top:40px;font-s
 
 /* ============ RESPONSIVE MÒBIL — CORRECCIONS ============ */
 
-/* iOS Safari: evitar scroll horitzontal sense trencar position:fixed */
-body{overflow-x:clip}
-
 /* Totes les imatges: mai superar l'ample del contenidor */
 img,video,iframe,embed,object{max-width:100%;box-sizing:border-box}
 
-/* ---- 860px: reduir rotacions que sobresurten als marges ---- */
+/* ---- 860px: reduir rotacions + desactivar reveal (animació d'entrada) en mòbil ---- */
 @media(max-width:860px){
   #benvinguda .letter-card{transform:rotate(0.15deg)}
   #benvinguda .intro-photo{transform:rotate(-1deg)}
   .secret-callout-photo{transform:rotate(-1.5deg)}
+  /* En mòbil el viewport és petit i el grid passa a 1 columna:
+     el bloc .reveal pot quedar sota el fold i no activar-se mai.
+     Desactivem l'animació i mostrem tot directament. */
+  .reveal,.reveal.in{opacity:1!important;transform:none!important;transition:none!important}
+
+  /* Separador visual entre capítols: línia teal suau a la part superior de cada secció.
+     Garanteix que el canvi de capítol sempre sigui visible en mòbil. */
+  section{
+    border-top: 2px solid rgba(74,174,150,0.18);
+  }
+  /* Seccions amb fons diferent ja es diferencien visualment — no calen dos indicadors */
+  section[style*="background"]{
+    border-top: none;
+  }
+  /* Hero i comiat no necessiten separador */
+  .hero, #comiat{
+    border-top: none;
+  }
 }
 
 /* ---- Mòbil petit: 360–480px ---- */
@@ -2788,8 +2805,12 @@ function shareGuide(e){
 }
 
 window.addEventListener('scroll',function(){
-  document.body.classList.toggle('scrolled', window.scrollY>60);
-});
+  var sy=window.scrollY;
+  document.body.classList.toggle('scrolled', sy>60);
+  // Amaga la langbar (selector d'idioma) en allunyar-se de la capçalera
+  var lb=document.querySelector('.langbar');
+  if(lb){ lb.classList.toggle('langbar-hidden', sy > window.innerHeight*0.6); }
+},{ passive:true });
 
 var observer=new IntersectionObserver(function(entries){
   entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); } });
