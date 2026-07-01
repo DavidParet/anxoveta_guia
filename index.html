@@ -442,6 +442,75 @@ footer small{color:var(--cream);opacity:0.5;display:block;margin-top:40px;font-s
   .section-head{margin-bottom:32px}
   .wrap{padding:0 22px}
 }
+
+/* ============ RESPONSIVE MÒBIL — CORRECCIONS ============ */
+
+/* iOS Safari: evitar scroll horitzontal sense trencar position:fixed */
+body{overflow-x:clip}
+
+/* Totes les imatges: mai superar l'ample del contenidor */
+img,video,iframe,embed,object{max-width:100%;box-sizing:border-box}
+
+/* ---- 860px: reduir rotacions que sobresurten als marges ---- */
+@media(max-width:860px){
+  #benvinguda .letter-card{transform:rotate(0.15deg)}
+  #benvinguda .intro-photo{transform:rotate(-1deg)}
+  .secret-callout-photo{transform:rotate(-1.5deg)}
+}
+
+/* ---- Mòbil petit: 360–480px ---- */
+@media(max-width:480px){
+
+  /* Langbar (CA ES FR EN): reduir mida sense perdre visibilitat */
+  .langbar{padding:10px 10px;gap:0}
+  .langbar button{font-size:0.9rem;padding:5px 8px}
+
+  /* Carta benvinguda: eliminar rotació + padding gran */
+  #benvinguda .letter-card{transform:none;padding:26px 16px 22px}
+  #benvinguda .intro-photo{transform:none;max-width:100%}
+  #benvinguda .intro-photo::after{width:64px;height:24px;margin-left:-32px}
+  .secret-callout-photo{transform:none;width:130px;height:130px}
+  .secret-callout-tag{transform:none}
+  .secret-callout{padding:18px 14px;gap:14px}
+
+  /* Hero: adaptar a 360–414px */
+  .hero{padding:90px 16px 100px;gap:18px}
+  .hero h1{font-size:clamp(2.4rem,8vw,3.2rem)}
+  .hero-nav{max-width:100%;gap:8px 12px}
+  .hero-nav a{font-size:0.75rem}
+
+  /* Contenidor principal */
+  .wrap{padding:0 14px}
+  section{padding:36px 0}
+  .section-head{margin-bottom:24px}
+
+  /* Historia: clamp(480px,…) — el mínim és massa gran per a mòbil */
+  .historia-photo{height:clamp(200px,58vw,320px)}
+
+  /* Photo-break: caption i head-overlay */
+  .photo-break{height:52vh}
+  .photo-break .caption.caption-lg{font-size:1rem;padding:0 14px;top:14px;max-width:calc(100% - 28px)}
+  .photo-break .head-overlay{padding:30px 14px}
+  .photo-break .head-overlay h2{font-size:clamp(1.6rem,6.5vw,2rem);max-width:100%}
+
+  /* Altures d'imatge en mòbil petit */
+  .photo-rect img{height:170px}
+  .photo-rect-xl img{height:190px}
+  .card img{height:170px}
+  .cellers-photos img{height:200px}
+
+  /* Cards: forçar 1 columna sempre */
+  .cards{grid-template-columns:1fr}
+  .distances{grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+
+  /* Itin, notes */
+  .itin-card{padding:20px 14px}
+  .note-musicale{padding:12px 14px;gap:10px}
+  .note-tip{padding:12px 14px}
+
+  /* Footer */
+  footer{padding:46px 0 24px}
+}
 </style>
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
