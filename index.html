@@ -37,6 +37,9 @@ body{
   line-height:1.7;
   letter-spacing:0.002em;
   -webkit-font-smoothing:antialiased;
+  /* overflow-x:clip: no crea scroll container (a diferència de hidden)
+     i per tant NO trenca position:fixed. Talla l'overflow horitzontal en iOS Safari. */
+  overflow-x:clip;
 }
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
@@ -453,14 +456,17 @@ footer small{color:var(--cream);opacity:0.5;display:block;margin-top:40px;font-s
 /* Totes les imatges: mai superar l'ample del contenidor */
 img,video,iframe,embed,object{max-width:100%;box-sizing:border-box}
 
-/* ---- 860px: reduir rotacions + desactivar reveal (animació d'entrada) en mòbil ---- */
+/* ---- 860px: eliminar rotacions i animacions en mòbil ---- */
 @media(max-width:860px){
-  #benvinguda .letter-card{transform:rotate(0.15deg)}
-  #benvinguda .intro-photo{transform:rotate(-1deg)}
-  .secret-callout-photo{transform:rotate(-1.5deg)}
-  /* En mòbil el viewport és petit i el grid passa a 1 columna:
-     el bloc .reveal pot quedar sota el fold i no activar-se mai.
-     Desactivem l'animació i mostrem tot directament. */
+  /* Eliminar totes les rotacions: en iOS Safari, transform:rotate() pot crear
+     overflow horitzontal fins i tot amb overflow-x:hidden/clip al pare */
+  #benvinguda .letter-card,
+  #benvinguda .intro-photo,
+  .secret-callout-photo,
+  .secret-callout-tag{ transform:none!important }
+
+  /* Desactivar animació reveal: el viewport petit fa que elements sota el fold
+     quedin a opacity:0 permanentment */
   .reveal,.reveal.in{opacity:1!important;transform:none!important;transition:none!important}
 
   /* Separador visual entre capítols: línia teal suau a la part superior de cada secció.
@@ -485,12 +491,13 @@ img,video,iframe,embed,object{max-width:100%;box-sizing:border-box}
   .langbar{padding:10px 10px;gap:0}
   .langbar button{font-size:0.9rem;padding:5px 8px}
 
-  /* Carta benvinguda: eliminar rotació + padding gran */
-  #benvinguda .letter-card{transform:none;padding:26px 16px 22px}
-  #benvinguda .intro-photo{transform:none;max-width:100%}
+  /* Carta benvinguda: padding reduït (rotacions ja eliminades al 860px) */
+  #benvinguda .letter-card{padding:26px 16px 22px}
+  #benvinguda .intro-photo{max-width:100%}
   #benvinguda .intro-photo::after{width:64px;height:24px;margin-left:-32px}
-  .secret-callout-photo{transform:none;width:130px;height:130px}
-  .secret-callout-tag{transform:none}
+  .secret-callout-photo{width:130px;height:130px}
+  /* Botons inline-flex: limitar ample perquè no surtin de pantalla */
+  .cta-final{max-width:calc(100% - 2px);flex-wrap:wrap;justify-content:center}
   .secret-callout{padding:18px 14px;gap:14px}
 
   /* Hero: adaptar a 360–414px */
