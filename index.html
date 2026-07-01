@@ -414,6 +414,9 @@ footer small{color:var(--cream);opacity:0.5;display:block;margin-top:40px;font-s
 
 @media(max-width:860px){
   .welcome-grid{grid-template-columns:1fr;gap:36px}
+  /* Especificitat alta: el #benvinguda .welcome-grid del CSS base té ID selector
+     i sobrepassaria la regla genèrica — cal repetir la sobreescriptura amb el mateix selector */
+  #benvinguda .welcome-grid{grid-template-columns:1fr;gap:28px}
   #benvinguda .intro-photo{max-width:78%}
   #benvinguda .letter-card{padding:34px 26px 30px;transform:rotate(0.3deg)}
   #benvinguda .letter-card h2{font-size:clamp(2.1rem,7vw,2.6rem)}
@@ -491,7 +494,14 @@ img,video,iframe,embed,object{max-width:100%;box-sizing:border-box}
   .secret-callout{padding:18px 14px;gap:14px}
 
   /* Hero: adaptar a 360–414px */
-  .hero{padding:90px 16px 100px;gap:18px}
+  .hero{
+    padding:90px 16px 100px;gap:18px;
+    /* Mòbil: reduir capa fosca perquè es vegi millor la foto,
+       i desplaçar la posició a la dreta per mostrar el sol */
+    background:
+      linear-gradient(180deg, rgba(22,48,46,.28), rgba(22,48,46,.46)),
+      url('PSX_20211017_173333.jpg') 72% center / cover no-repeat;
+  }
   .hero h1{font-size:clamp(2.4rem,8vw,3.2rem)}
   .hero-nav{max-width:100%;gap:8px 12px}
   .hero-nav a{font-size:0.75rem}
