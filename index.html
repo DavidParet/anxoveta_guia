@@ -987,10 +987,10 @@ img,video,iframe,embed,object{max-width:100%;box-sizing:border-box}
     <div class="section-head reveal" style="margin-bottom:0">
       <div class="divider"><svg class="anx-icon" viewBox="0 0 220 120" aria-hidden="true"><path d="M20,60 C20,38 54,25 96,27 C136,29 162,43 178,60 C162,77 136,91 96,93 C54,95 20,82 20,60 Z" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M176,52 L206,40 L192,60 L206,80 L176,68" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="52" cy="48" r="5" fill="currentColor"/></svg><span></span></div>
 
-      <span class="eyebrow lang" data-lang="fr">Aucune liste copiée</span>
-      <span class="eyebrow lang" data-lang="ca">Cap llista copiada</span>
-      <span class="eyebrow lang" data-lang="es">Ninguna lista copiada</span>
-      <span class="eyebrow lang" data-lang="en">No copied lists here</span>
+      <span class="eyebrow lang" data-lang="fr">Nos adresses de toujours</span>
+      <span class="eyebrow lang" data-lang="ca">Els nostres llocs de sempre</span>
+      <span class="eyebrow lang" data-lang="es">Nuestros sitios de siempre</span>
+      <span class="eyebrow lang" data-lang="en">The places we go back to</span>
 
       <h2 class="lang" data-lang="fr">Où manger</h2>
       <h2 class="lang" data-lang="ca">On menjar</h2>
@@ -2814,11 +2814,8 @@ function setLang(l){
 document.querySelectorAll('.langbar button').forEach(b=>{
   b.addEventListener('click',()=>setLang(b.dataset.setlang));
 });
-(function(){
-  var saved=null;
-  try{saved=localStorage.getItem('anxoveta-lang')}catch(e){}
-  if(saved){setLang(saved)}
-})();
+// La guia s'obre sempre en francès per defecte
+setLang('fr');
 
 function shareGuide(e){
   e.preventDefault();
@@ -2844,9 +2841,7 @@ function shareGuide(e){
 window.addEventListener('scroll',function(){
   var sy=window.scrollY;
   document.body.classList.toggle('scrolled', sy>60);
-  // Amaga la langbar (selector d'idioma) en allunyar-se de la capçalera
-  var lb=document.querySelector('.langbar');
-  if(lb){ lb.classList.toggle('langbar-hidden', sy > window.innerHeight*0.6); }
+  // La langbar (selector d'idioma) queda sempre visible
 },{ passive:true });
 
 var observer=new IntersectionObserver(function(entries){
